@@ -2,7 +2,7 @@ package com.springproject.QuestApp.controllers;
 
 
 import com.springproject.QuestApp.entities.User;
-import com.springproject.QuestApp.repositorys.UserRepository;
+import com.springproject.QuestApp.services.UserService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -12,52 +12,38 @@ import java.util.Optional;
 @RequestMapping("/users")  //Bu classtaki tüm endpointlerin başında /user var olacağını belirtik.
 public class UserController {
 
-    private UserRepository userRepository; //Contructor injection ile enjekte edilir.
 
-    //Sanki user-controller oluşturuldan userRepository ekleniyormuş gibi yapıyoruz.
-    public UserController(UserRepository userRepository) {
-        this.userRepository = userRepository;
+    private UserService userService;
+    public UserController(UserService userService) {
+        this.userService = userService;
     }
 
 
     @GetMapping
     public List<User> getAllUsers() {
-       return userRepository.findAll();
+       return userService.getAllUsers();
     }
 
     @PostMapping
     public User createUser(@RequestBody User newUser ) {
-        return  userRepository.save(newUser);
+        return  userService.saveOneUser(newUser);
     }
 
 
     @GetMapping("/{userId}")
     public User getUserbyId(@PathVariable Long userId) {
-        //BU ıd'ye ait biri var mı database bakmak gerekiyor bir throws oluşturmak lazım.
-        return  userRepository.findById(userId).orElse(null);
+        return  userService.getOneUser(userId);
     }
 
     @PutMapping("/{userId}")
     public User updateOneUser(@PathVariable Long userId, @RequestBody User newUser) {
-        Optional<User> user = userRepository.findById(userId);
-
-        if (user.isPresent()) { //obje var ise
-            User foundUser = user.get();
-            foundUser.setUsername(newUser.getUsername());
-            foundUser.setPassword(newUser.getPassword());
-
-            userRepository.save(foundUser);
-            return  foundUser;
-        } else  {
-            return  null; //Custom Exception.
-        }
+       return  userService.updateOneUser(userId,newUser);
     }
 
 
     @DeleteMapping("/{userId}")
     public void deleteOneUser(@PathVariable Long userId) {
-          userRepository.deleteById(userId);
-
+        userService.deleteById(userId);
     }
 
 }
