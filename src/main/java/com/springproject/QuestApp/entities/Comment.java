@@ -21,8 +21,6 @@ public class Comment {
     @JsonIgnore
     Post post;
 
-    Long postId;
-
     //MARK: Birden fazla postu olabilir tek bir user'ın "Many to one"
     @ManyToOne(fetch = FetchType.LAZY) //user'ı getirmek için acele etme.
     @JoinColumn(name = "user_id",nullable = false)

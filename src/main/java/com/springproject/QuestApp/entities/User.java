@@ -10,7 +10,6 @@ import lombok.Data;   //modelin getter ve setterlarını otomatik olarak tanıml
 @Table(name = "User")
 @Data
 public class User {
-
     @Id
     Long id;
 
