@@ -37,14 +37,13 @@ public class PostController {
 
 
     @PutMapping("/{postId}")
-    public Post updateOnePost(@PathVariable Long postId) {
-        return  postService.updateOnePostById(postId);
+    public Post updateOnePost(@PathVariable Long postId, @RequestBody PostUpdateRequest updatePost) {
+        return  postService.updateOnePostById(postId,updatePost);
     }
 
-
     @DeleteMapping("/{postId}")
-    public void deleteOnePost(@PathVariable Long postId, @RequestBody PostUpdateRequest postUpdateRequest) {
-        return; postService.deleteOnePostById(postId,postUpdateRequest);
+    public void deleteOnePost(@PathVariable Long postId ) {
+        postService.deleteOnePostById(postId);
     }
 
 }

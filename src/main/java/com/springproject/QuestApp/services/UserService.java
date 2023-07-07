@@ -27,7 +27,7 @@ public class UserService {
 
 
     //Services: Userları döner user yoksa Null döner.
-    public User getOneUser(Long userId) {
+    public User getOneUserById(Long userId) {
             //custom exception.
         return  userRepository.findById(userId).orElse(null);
     }
