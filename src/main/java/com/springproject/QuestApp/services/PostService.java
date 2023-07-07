@@ -37,11 +37,8 @@ public class PostService {
     }
 
     public Post createOnePost(PostCreateRequest newPostRequest) {
-        System.out.println("Çalıştı Service");
+
         User user = userService.getOneUser(newPostRequest.getUserId());
-
-        System.out.println("user: " + user);
-
         if(user == null) {
             return  null; // Exception
         }
@@ -57,11 +54,20 @@ public class PostService {
 
     }
 
-    public Post updateOnePostById(Long postId) {
+    public Post updateOnePostById(Long postId, PostUpdateRequest updatePost) {
+        Optional<Post> post = postRepository.findById(postId);
+        if(post.isPresent()) {
+            Post toUpdate = post.get(); //idye göre biri varsa bilgileri alındı ve toUpdate'e atandı.
+            toUpdate.setText(updatePost.getText());
+            toUpdate.setTitle(updatePost.getTitle());
+            postRepository.save(toUpdate);
+           return  toUpdate;
+        }
 
+        return  null;
     }
 
-    public void deleteOnePostById(Long postId, PostUpdateRequest postUpdateRequest) {
+    public void deleteOnePostById(Long postId) {
 
         postRepository.deleteById(postId);
     }
