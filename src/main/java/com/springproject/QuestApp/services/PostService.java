@@ -5,6 +5,7 @@ import com.springproject.QuestApp.entities.User;
 import com.springproject.QuestApp.repositorys.PostRepository;
 import com.springproject.QuestApp.repositorys.UserRepository;
 import com.springproject.QuestApp.requests.PostCreateRequest;
+import com.springproject.QuestApp.requests.PostUpdateRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -54,5 +55,14 @@ public class PostService {
 
         return postRepository.save(toSave);
 
+    }
+
+    public Post updateOnePostById(Long postId) {
+
+    }
+
+    public void deleteOnePostById(Long postId, PostUpdateRequest postUpdateRequest) {
+
+        postRepository.deleteById(postId);
     }
 }
