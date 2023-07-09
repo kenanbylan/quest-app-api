@@ -17,10 +17,9 @@ public class Post {
 
     //MARK: Birden fazla postu olabilir tek bir user'ın "Many to one"
 
-    @ManyToOne(fetch = FetchType.LAZY) //user'ı getirmek için acele etme.
+    @ManyToOne(fetch = FetchType.EAGER) //user'ı getirmek için acele etme.
     @JoinColumn(name = "user_id",nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE) //user silindiğinde tüm ona ait tüm postlarda silinir.
-    @JsonIgnore
     User user;
 
     String title;

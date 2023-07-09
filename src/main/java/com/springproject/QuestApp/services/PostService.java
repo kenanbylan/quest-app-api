@@ -6,11 +6,13 @@ import com.springproject.QuestApp.repositorys.PostRepository;
 import com.springproject.QuestApp.repositorys.UserRepository;
 import com.springproject.QuestApp.requests.PostCreateRequest;
 import com.springproject.QuestApp.requests.PostUpdateRequest;
+import com.springproject.QuestApp.responses.PostResponse;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class PostService {
@@ -24,12 +26,16 @@ public class PostService {
     }
 
 
-    public List<Post> getAllPosts(Optional<Long> userId) {
-            if (userId.isPresent()) {
-                return postRepository.findByUserId(userId.get());
-            }
 
-            return  postRepository.findAll();
+    //Post listesini çektik ve PostResponse Modeline mapledik sonra bunu döndürdük.
+    public List<PostResponse> getAllPosts(Optional<Long> userId) {
+        List<Post> listPost;
+            if (userId.isPresent()) {
+                listPost = postRepository.findByUserId(userId.get());
+            } else {
+                listPost = postRepository.findAll();
+            }
+        return listPost.stream().map(post -> new PostResponse(post)).collect(Collectors.toList());
     }
 
     public Post getOnePostById(Long postId) {
